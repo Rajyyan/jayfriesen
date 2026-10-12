@@ -1,0 +1,836 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"meta": {
+		"name": "J.R. Friesen",
+		"description": "Site for J.R. Friesen, audio mix engineer",
+		"author": "J.R. Friesen"
+	},
+	"settings": {
+		"title": "J.R. Friesen",
+		"tagline": "Audio mix engineer. FOH, studio, Dolby Atmos."
+	},
+	"blockTypes": [
+		{
+			"slug": "marketing_hero",
+			"label": "Hero",
+			"description": "A prominent page introduction with optional calls to action and media",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "subheadline",
+							"label": "Subheadline",
+							"type": "text"
+						},
+						{
+							"slug": "primary_cta_label",
+							"label": "Primary CTA label",
+							"type": "string"
+						},
+						{
+							"slug": "primary_cta_url",
+							"label": "Primary CTA URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "secondary_cta_label",
+							"label": "Secondary CTA label",
+							"type": "string"
+						},
+						{
+							"slug": "secondary_cta_url",
+							"label": "Secondary CTA URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						},
+						{
+							"slug": "image",
+							"label": "Image",
+							"type": "image"
+						},
+						{
+							"slug": "centered",
+							"label": "Center the layout",
+							"type": "boolean",
+							"defaultValue": false
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "marketing_features",
+			"label": "Features",
+			"description": "A grid of product or service features",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string",
+							"required": true
+						},
+						{
+							"slug": "subheadline",
+							"label": "Subheadline",
+							"type": "text"
+						},
+						{
+							"slug": "features",
+							"label": "Features",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 12,
+								"subFields": [
+									{
+										"slug": "icon",
+										"label": "Icon",
+										"type": "select",
+										"required": true,
+										"options": [
+											"zap",
+											"shield",
+											"users",
+											"chart",
+											"code",
+											"globe",
+											"heart",
+											"star",
+											"check",
+											"lock",
+											"clock",
+											"cloud"
+										]
+									},
+									{
+										"slug": "title",
+										"label": "Title",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "description",
+										"label": "Description",
+										"type": "text",
+										"required": true
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "marketing_testimonials",
+			"label": "Testimonials",
+			"description": "Customer quotes and attribution",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "testimonials",
+							"label": "Testimonials",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 12,
+								"subFields": [
+									{
+										"slug": "quote",
+										"label": "Quote",
+										"type": "text",
+										"required": true
+									},
+									{
+										"slug": "author",
+										"label": "Author name",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "role",
+										"label": "Role or title",
+										"type": "string"
+									},
+									{
+										"slug": "company",
+										"label": "Company",
+										"type": "string"
+									},
+									{
+										"slug": "avatar",
+										"label": "Avatar",
+										"type": "image"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "marketing_faq",
+			"label": "FAQ",
+			"description": "A list of frequently asked questions",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "items",
+							"label": "Questions",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 12,
+								"subFields": [
+									{
+										"slug": "question",
+										"label": "Question",
+										"type": "string",
+										"required": true
+									},
+									{
+										"slug": "answer",
+										"label": "Answer",
+										"type": "text",
+										"required": true
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "marketing_gallery",
+			"label": "Photo gallery",
+			"description": "A grid of photos",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "columns",
+							"label": "Columns",
+							"type": "select",
+							"defaultValue": "3",
+							"validation": {
+								"options": [
+									"2",
+									"3",
+									"4"
+								]
+							}
+						},
+						{
+							"slug": "images",
+							"label": "Photos",
+							"type": "repeater",
+							"required": true,
+							"validation": {
+								"minItems": 1,
+								"maxItems": 24,
+								"subFields": [
+									{
+										"slug": "image",
+										"label": "Photo",
+										"type": "image",
+										"required": true
+									},
+									{
+										"slug": "caption",
+										"label": "Caption",
+										"type": "string"
+									}
+								]
+							}
+						}
+					]
+				}
+			]
+		},
+		{
+			"slug": "marketing_text",
+			"label": "Text",
+			"description": "A heading with plain paragraphs. Leave a blank line between paragraphs.",
+			"category": "Marketing",
+			"currentVersion": 1,
+			"versions": [
+				{
+					"version": 1,
+					"fields": [
+						{
+							"slug": "anchor_id",
+							"label": "Anchor ID",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|[a-z][a-z0-9_-]*)$"
+							}
+						},
+						{
+							"slug": "headline",
+							"label": "Headline",
+							"type": "string"
+						},
+						{
+							"slug": "body",
+							"label": "Body",
+							"type": "text"
+						},
+						{
+							"slug": "footnote",
+							"label": "Footnote",
+							"type": "string"
+						},
+						{
+							"slug": "cta_label",
+							"label": "Button label",
+							"type": "string"
+						},
+						{
+							"slug": "cta_url",
+							"label": "Button URL",
+							"type": "string",
+							"validation": {
+								"pattern": "^(?:$|(?:https?://|mailto:|tel:|/(?!/)|#).+)$"
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"collections": [
+		{
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"supports": [
+				"drafts",
+				"revisions",
+				"seo"
+			],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "blocks",
+					"validation": {
+						"allowedTypes": [
+							"marketing_hero",
+							"marketing_features",
+							"marketing_testimonials",
+							"marketing_faq",
+							"marketing_gallery",
+							"marketing_text"
+						],
+						"maxItems": 20
+					}
+				}
+			]
+		}
+	],
+	"menus": [
+		{
+			"name": "primary",
+			"label": "Primary Navigation",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Live",
+					"url": "/live"
+				},
+				{
+					"type": "custom",
+					"label": "The Fallout Shelter",
+					"url": "/falloutshelter"
+				}
+			]
+		},
+		{
+			"name": "footer_site",
+			"label": "Footer: Site",
+			"items": [
+				{
+					"type": "custom",
+					"label": "Home",
+					"url": "/"
+				},
+				{
+					"type": "custom",
+					"label": "Live",
+					"url": "/live"
+				},
+				{
+					"type": "custom",
+					"label": "The Fallout Shelter",
+					"url": "/falloutshelter"
+				},
+				{
+					"type": "custom",
+					"label": "Privacy Policy",
+					"url": "/privacy-policy"
+				}
+			]
+		},
+		{
+			"name": "footer_contact",
+			"label": "Footer: Contact",
+			"items": [
+				{
+					"type": "custom",
+					"label": "jr@jayfriesen.com",
+					"url": "mailto:jr@jayfriesen.com"
+				},
+				{
+					"type": "custom",
+					"label": "406.861.8048",
+					"url": "tel:+14068618048"
+				}
+			]
+		}
+	],
+	"content": {
+		"pages": [
+			{
+				"id": "home",
+				"slug": "home",
+				"status": "published",
+				"data": {
+					"title": "Home",
+					"content": [
+						{
+							"_type": "marketing_hero",
+							"_version": 1,
+							"_key": "hero",
+							"headline": "J.R. Friesen",
+							"subheadline": "Professional and consistent mixes for live and studio music. Dolby Atmos mixing and mastering services.",
+							"primary_cta_label": "Email J.R.",
+							"primary_cta_url": "mailto:jr@jayfriesen.com",
+							"secondary_cta_label": "406.861.8048",
+							"secondary_cta_url": "tel:+14068618048",
+							"image": {
+								"$media": {
+									"url": "https://static.wixstatic.com/media/4cad12_0e662cb3f01343a1ac44a9fa1fcd3b61~mv2.jpeg",
+									"alt": "J.R. Friesen at work",
+									"filename": "home-1.jpeg"
+								}
+							}
+						},
+						{
+							"_type": "marketing_features",
+							"_version": 1,
+							"_key": "services",
+							"anchor_id": "services",
+							"headline": "FOH · A1 · Immersive",
+							"features": [
+								{
+									"icon": "users",
+									"title": "FOH",
+									"description": "Front-of-house mixing on tour and for live shows, with tour management available."
+								},
+								{
+									"icon": "zap",
+									"title": "A1",
+									"description": "A1 mixing for live events."
+								},
+								{
+									"icon": "globe",
+									"title": "Immersive",
+									"description": "Dolby Atmos mixing and mastering in a 7.1.4 room at The Fallout Shelter."
+								}
+							]
+						},
+						{
+							"_type": "marketing_gallery",
+							"_version": 1,
+							"_key": "home-gallery",
+							"columns": "2",
+							"images": [
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_cba9df84360f468c86dcf18e1b3c4435~mv2.jpeg",
+											"alt": "Live show photo",
+											"filename": "home-2.jpeg"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_167a9c931591460b84ddc315855c1492~mv2.jpeg",
+											"alt": "Live show photo",
+											"filename": "home-3.jpeg"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "live",
+				"slug": "live",
+				"status": "published",
+				"data": {
+					"title": "Live",
+					"content": [
+						{
+							"_type": "marketing_hero",
+							"_version": 1,
+							"_key": "live-hero",
+							"headline": "Touring & Live",
+							"primary_cta_label": "Inquire",
+							"primary_cta_url": "mailto:jr@jayfriesen.com?subject=FOH%20Inquiry",
+							"image": {
+								"$media": {
+									"url": "https://static.wixstatic.com/media/4cad12_2d5df23ed1254dd397f6e0bcddc0555ef000.jpg",
+									"alt": "Live show from front of house",
+									"filename": "live-hero.jpg"
+								}
+							}
+						},
+						{
+							"_type": "marketing_text",
+							"_version": 1,
+							"_key": "touring",
+							"headline": "Select Touring FOH Credits",
+							"body": "Ty Walker & The Humanoids* · BLVDS* · Wretches & Kings*",
+							"footnote": "*also Tour Manager"
+						},
+						{
+							"_type": "marketing_text",
+							"_version": 1,
+							"_key": "live-credits",
+							"headline": "Select Live FOH Credits",
+							"body": "Bones Owens · Channing Wilson · Goodnight Texas · Boundaries · Emily Nenni · The Last Revel · Eddie 9v · Vincent Neil Emerson · The White Buffalo · David Adam Byrnes",
+							"cta_label": "Inquire",
+							"cta_url": "mailto:jr@jayfriesen.com?subject=FOH%20Inquiry"
+						},
+						{
+							"_type": "marketing_gallery",
+							"_version": 1,
+							"_key": "live-gallery",
+							"columns": "3",
+							"images": [
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_fa1ebe2c4f7d4cd19ff912746dbc5822~mv2.png",
+											"alt": "Show poster",
+											"filename": "live-1.png"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_b176f55f750e4411a4645746fcb3d89a~mv2.png",
+											"alt": "Show poster",
+											"filename": "live-2.png"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_81700e1fd923460bb09d2ad501d9e7c4~mv2.png",
+											"alt": "Show poster",
+											"filename": "live-3.png"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_962b8183cab34b8bab9ffd90e6678d80~mv2.png",
+											"alt": "Show poster",
+											"filename": "live-4.png"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_288b9dab5a874ad1a0b079354a705d0c~mv2.jpg",
+											"alt": "Show poster",
+											"filename": "live-5.jpg"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_0ce5445736db447d912b35fbd159d5b9~mv2.png",
+											"alt": "Show poster",
+											"filename": "live-6.png"
+										}
+									}
+								}
+							]
+						},
+						{
+							"_type": "marketing_testimonials",
+							"_version": 1,
+							"_key": "live-quotes",
+							"headline": "What artists and promoters say",
+							"testimonials": [
+								{
+									"quote": "This is the best I've ever sounded.",
+									"author": "Josh Langston",
+									"role": "Artist"
+								},
+								{
+									"quote": "You killed the mix. It sounded amazing!",
+									"author": "Sean Lynch",
+									"company": "1111 Presents"
+								},
+								{
+									"quote": "I was told it was outstanding. The vocals were dialed.",
+									"author": "Ryan Rebo",
+									"company": "Ty Walker & The Humanoids"
+								},
+								{
+									"quote": "We've never sounded better, everything you did for us was perfect.",
+									"author": "Nate Burnham",
+									"role": "Artist"
+								},
+								{
+									"quote": "I've had so many compliments! This is the best sounding show we've had in the last 5!",
+									"author": "Lindsey Richardson",
+									"role": "Events Director"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "falloutshelter",
+				"slug": "falloutshelter",
+				"status": "published",
+				"data": {
+					"title": "The Fallout Shelter",
+					"content": [
+						{
+							"_type": "marketing_hero",
+							"_version": 1,
+							"_key": "fo-hero",
+							"headline": "The Fallout Shelter",
+							"subheadline": "The Fallout Shelter is a fully qualified 7.1.4 Dolby Atmos mix room utilizing only the best digital tools ready for any sized mix, mastering, and immersive project.",
+							"primary_cta_label": "Inquire",
+							"primary_cta_url": "mailto:jr@jayfriesen.com?subject=Fallout%20Shelter%20Inquiry",
+							"image": {
+								"$media": {
+									"url": "https://static.wixstatic.com/media/4cad12_5458f4f32a8a485bafc26efba93da12e~mv2.jpeg",
+									"alt": "The Fallout Shelter mix room",
+									"filename": "fallout-room.jpeg"
+								}
+							}
+						},
+						{
+							"_type": "marketing_testimonials",
+							"_version": 1,
+							"_key": "fo-quotes",
+							"headline": "Client notes",
+							"testimonials": [
+								{
+									"quote": "We had several others work on it but just couldn't give us what we wanted and you nailed it right out of the gate!",
+									"author": "Joel M."
+								},
+								{
+									"quote": "I just listened and they sound incredible! Thank you so much for your time and care on this project. You've done them justice!",
+									"author": "Sophia W."
+								},
+								{
+									"quote": "I think it sounds amazing. Thank you for knocking this out so quickly!",
+									"author": "Jessica A."
+								},
+								{
+									"quote": "Wow! These sound great! I have nothing to change!",
+									"author": "Josh M."
+								}
+							]
+						},
+						{
+							"_type": "marketing_gallery",
+							"_version": 1,
+							"_key": "fo-gallery",
+							"columns": "3",
+							"images": [
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_12b79243d8da4168bdad82e195bde292~mv2.png",
+											"alt": "The Fallout Shelter logo",
+											"filename": "fallout-logo.png"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_1f3240420cf94a50bc0663663157958b~mv2.jpeg",
+											"alt": "The Fallout Shelter",
+											"filename": "fallout-1.jpeg"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_ce1ad4907d1c4a3ea3617e1b0d636e8b~mv2.jpeg",
+											"alt": "The Fallout Shelter",
+											"filename": "fallout-2.jpeg"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_43984863304e4ae18884ee11e49db429~mv2.jpeg",
+											"alt": "The Fallout Shelter",
+											"filename": "fallout-3.jpeg"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_a84600c511474e729f7774d4d16843aa~mv2.jpeg",
+											"alt": "The Fallout Shelter",
+											"filename": "fallout-4.jpeg"
+										}
+									}
+								},
+								{
+									"image": {
+										"$media": {
+											"url": "https://static.wixstatic.com/media/4cad12_fbc5344653344e458e219c47c694ee98~mv2.jpeg",
+											"alt": "The Fallout Shelter",
+											"filename": "fallout-5.jpeg"
+										}
+									}
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "privacy-policy",
+				"slug": "privacy-policy",
+				"status": "published",
+				"data": {
+					"title": "Privacy Policy",
+					"content": [
+						{
+							"_type": "marketing_text",
+							"_version": 1,
+							"_key": "privacy",
+							"headline": "Privacy Policy",
+							"body": "You do not provide any voluntary personal information to us via this website. However, we may collect information about you when you visit and interact with this website.\n\nWe may use automatic data collection technologies, including Google Analytics, to collect certain information about your equipment, browsing actions and patterns. The type of information that may be automatically collected may include date and time of access to the website, your traffic pattern through our website, any communications between your computer and our website, the internet protocol address of the computer that you are using, the domain and host from which you access the Internet, the type of computer you use, your internet connection, your browser software and operating system, and the specific activities you are engaged in while visiting the website.\n\nThe information we collect automatically is used for statistical data and will not include personal information. We use this data to improve our website and our offerings. To the extent that you voluntarily provide personal information to us, our systems will associate the automatically collected information with your personal information.\n\nWe do not share this information unless required by law."
+						}
+					]
+				}
+			}
+		]
+	}
+}

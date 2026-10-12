@@ -1,0 +1,39 @@
+/*
+  theme.css -- J.R. Friesen site theme. Overrides the defaults in tokens.css.
+  Warm amber (VU-meter glow) over near-black in dark mode, warm off-white in light mode.
+*/
+
+:root {
+	--color-bg: light-dark(#faf8f5, #111010);
+	--color-surface: light-dark(#f1ede6, #1b1918);
+	--color-text: light-dark(#1a1714, #f3efe9);
+	--color-muted: light-dark(#6b6259, #a39a90);
+	--color-border: light-dark(#e2dbd1, #2e2a27);
+
+	--color-brand: light-dark(#b45309, #f59e0b);
+	--color-brand-strong: light-dark(#92400e, #d97706);
+	--color-brand-soft: light-dark(#d97706, #fbbf24);
+	--color-accent: light-dark(#b91c1c, #ef4444);
+	--color-accent-soft: #fca5a5;
+	--color-on-brand: #fff;
+
+	--gradient-headline: linear-gradient(135deg, var(--color-text), var(--color-brand));
+
+	--font-weight-display: 700;
+	--radius: 6px;
+	--radius-lg: 10px;
+}
+
+@supports not (color: light-dark(#000, #fff)) {
+	:root {
+		--color-bg: #faf8f5;
+		--color-surface: #f1ede6;
+		--color-text: #1a1714;
+		--color-muted: #6b6259;
+		--color-border: #e2dbd1;
+		--color-brand: #b45309;
+		--color-brand-strong: #92400e;
+		--color-brand-soft: #d97706;
+		--color-accent: #b91c1c;
+	}
+}

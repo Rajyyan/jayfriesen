@@ -1,0 +1,53 @@
+---
+import { getEmDashEntry, getSeoMeta } from "emdash";
+import MarketingBlocks from "../components/MarketingBlocks.astro";
+import Base from "../layouts/Base.astro";
+import { heroSeoDefaults } from "../utils/page";
+
+// Any page created in the admin gets its own URL: /live, /falloutshelter, /privacy-policy, ...
+let slug: string | undefined;
+try {
+	slug = Astro.params.slug ? decodeURIComponent(Astro.params.slug) : undefined;
+} catch {
+	slug = undefined;
+}
+if (!slug || slug === "home") return Astro.rewrite("/404");
+
+const { entry: page, cacheHint } = await getEmDashEntry("pages", slug);
+if (!page) return Astro.rewrite("/404");
+
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const seo = getSeoMeta(page, {
+	siteUrl: Astro.url.origin,
+	path: `/${page.id}`,
+	...heroSeoDefaults(page.data.content, Astro.url.origin),
+});
+const blocks = page.data.content ?? [];
+---
+
+<Base
+	title={seo.title}
+	pageTitle={page.data.title}
+	description={seo.description}
+	image={seo.ogImage}
+	canonical={seo.canonical}
+	robots={seo.robots}
+	content={{ collection: "pages", id: page.data.id, slug: page.id }}
+>
+	{blocks.length > 0 ? (
+		<div {...page.edit.content}>
+			<MarketingBlocks value={blocks} />
+		</div>
+	) : (
+		<section class="container empty-page">
+			<h1>{page.data.title}</h1>
+		</section>
+	)}
+</Base>
+
+<style>
+	.empty-page {
+		padding-block: var(--spacing-4xl);
+	}
+</style>

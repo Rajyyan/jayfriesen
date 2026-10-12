@@ -1,0 +1,66 @@
+---
+import { sanitizeHref } from "emdash";
+import type { BlockComponentProps } from "emdash/ui";
+import type { PageContentBlock } from "../../../emdash-env";
+
+type TextBlock = Extract<PageContentBlock, { _type: "marketing_text" }>;
+type Props = BlockComponentProps<TextBlock>;
+
+const { value } = Astro.props;
+const { anchor_id, headline, footnote } = value;
+const paragraphs = (value.body ?? "")
+	.split(/\n\s*\n/)
+	.map((p) => p.trim())
+	.filter(Boolean);
+const cta =
+	value.cta_label && value.cta_url
+		? { label: value.cta_label, url: sanitizeHref(value.cta_url) }
+		: undefined;
+---
+
+<section class="text-block section" id={anchor_id || undefined}>
+	<div class="container text-container">
+		{headline && <h2 class="text-headline">{headline}</h2>}
+		{paragraphs.map((p) => <p class="text-body">{p}</p>)}
+		{footnote && <p class="text-footnote">{footnote}</p>}
+		{cta && (
+			<a href={cta.url} class="btn btn-primary btn-lg text-cta">
+				{cta.label}
+			</a>
+		)}
+	</div>
+</section>
+
+<style>
+	.text-block {
+		padding-top: var(--spacing-2xl);
+		padding-bottom: var(--spacing-2xl);
+	}
+
+	.text-container {
+		max-width: var(--max-width);
+	}
+
+	.text-headline {
+		margin-bottom: var(--spacing-lg);
+		font-size: var(--font-size-2xl);
+		font-weight: var(--font-weight-display);
+	}
+
+	.text-body {
+		margin-bottom: var(--spacing-md);
+		font-size: var(--font-size-lg);
+		line-height: var(--leading-relaxed);
+		white-space: pre-line;
+	}
+
+	.text-footnote {
+		font-size: var(--font-size-sm);
+		color: var(--color-muted);
+	}
+
+	.text-cta {
+		display: inline-flex;
+		margin-top: var(--spacing-xl);
+	}
+</style>
