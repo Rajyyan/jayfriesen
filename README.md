@@ -46,3 +46,8 @@ pnpm dev     # http://localhost:4321 and /_emdash/admin
 - Contact is by email (jr@jayfriesen.com) and phone links. Like the Wix site, there's no form.
 - The Wix pages Photography, Members, Coming Soon and "Copy of Home" were empty or unused, so they aren't included.
 - The theme is in `src/styles/theme.css`: warm amber on near-black in dark mode, off-white in light mode, set in Archivo. Visitors can switch light and dark mode in the footer.
+
+## Agent skills and MCP
+`.agents/skills/` contains EmDash's skills plus Cloudflare's official skills from [cloudflare/skills](https://github.com/cloudflare/skills): `wrangler`, `workers-best-practices`, `web-perf`, `cloudflare` and `cf-cli`. `.mcp.json` registers the EmDash docs server and Cloudflare's MCP server (`https://mcp.cloudflare.com/mcp`), so coding agents opened in this folder pick them up automatically.
+
+Following `workers-best-practices`, Workers Logs and Traces are turned on in `wrangler.jsonc`. The compatibility date is left at the date EmDash's template was tested with.
