@@ -14,6 +14,7 @@
 		{
 			"binding": "DB",
 			"database_name": "jayfriesen",
+			"database_id": "5cdfa910-9fd4-480c-87ac-b848839eb21d",
 		},
 	],
 	"r2_buckets": [
