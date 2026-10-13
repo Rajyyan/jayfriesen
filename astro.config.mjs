@@ -57,9 +57,9 @@ export default defineConfig({
 	fonts: [
 		{
 			provider: fontProviders.google(),
-			name: "Archivo",
+			name: "Quicksand",
 			cssVariable: "--font-body",
-			weights: [400, 500, 600, 700, 800],
+			weights: [300, 400, 500, 600, 700],
 			fallbacks: ["sans-serif"],
 		},
 	],

@@ -1,14 +1,68 @@
 ---
-import { getEmDashEntry, getSeoMeta } from "emdash";
+/**
+ * Home page: the minimal landing from the original Wix site.
+ * Name at the top, contact on the left, services on the right, and a photo
+ * slideshow in the middle that crossfades every few seconds.
+ *
+ * Everything is still edited in the admin on the Home page:
+ * - Slideshow photos: the Hero block's image, then every photo in the gallery block(s)
+ * - Phone / email: the Hero block's two buttons (tel: and mailto: links)
+ * - Services (FOH / A1 / Immersive): the titles in the Features block
+ */
+import { getEmDashEntry, getSeoMeta, getSiteSettingsWithCacheHint, sanitizeHref } from "emdash";
+import { Image } from "emdash/ui";
+import type { PageContentBlock } from "../../emdash-env";
 import Base from "../layouts/Base.astro";
-import MarketingBlocks from "../components/MarketingBlocks.astro";
 
 const { entry: page, cacheHint } = await getEmDashEntry("pages", "home");
-
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
-const pageTitle = page?.data.title;
-const pageContent = page?.data.content;
+const { data: settings, cacheHint: settingsHint } = await getSiteSettingsWithCacheHint();
+if (Astro.cache?.enabled) Astro.cache.set(settingsHint);
+const name = settings?.title || "J.R. Friesen";
+const blocks: PageContentBlock[] = page?.data.content ?? [];
+
+type Hero = Extract<PageContentBlock, { _type: "marketing_hero" }>;
+type Features = Extract<PageContentBlock, { _type: "marketing_features" }>;
+type Gallery = Extract<PageContentBlock, { _type: "marketing_gallery" }>;
+
+const hero = blocks.find((b): b is Hero => b._type === "marketing_hero");
+const features = blocks.find((b): b is Features => b._type === "marketing_features");
+const galleries = blocks.filter((b): b is Gallery => b._type === "marketing_gallery");
+
+const slides = [
+	...(hero?.image ? [hero.image] : []),
+	...galleries.flatMap((g) => (g.images ?? []).map((item) => item?.image).filter(Boolean)),
+] as NonNullable<Hero["image"]>[];
+
+// Contact lines come from the hero buttons; fall back to the known details.
+const ctas = [
+	{ label: hero?.primary_cta_label, url: hero?.primary_cta_url },
+	{ label: hero?.secondary_cta_label, url: hero?.secondary_cta_url },
+];
+const telCta = ctas.find((c) => c.url?.startsWith("tel:"));
+const mailCta = ctas.find((c) => c.url?.startsWith("mailto:"));
+const phone = {
+	label: telCta?.label || "406.861.8048",
+	url: sanitizeHref(telCta?.url || "tel:+14068618048"),
+};
+const emailAddress = (mailCta?.url || "mailto:jr@jayfriesen.com").replace(/^mailto:/, "").split("?")[0];
+const email = { label: emailAddress, url: sanitizeHref(`mailto:${emailAddress}`) };
+
+// Services link through to the matching page.
+const serviceLinks: Record<string, string> = { foh: "/live", a1: "/live", immersive: "/falloutshelter" };
+const services = (features?.features ?? []).map((f) => ({
+	label: f.title,
+	url: serviceLinks[f.title.trim().toLowerCase()],
+}));
+if (services.length === 0) {
+	services.push(
+		{ label: "FOH", url: "/live" },
+		{ label: "A1", url: "/live" },
+		{ label: "Immersive", url: "/falloutshelter" },
+	);
+}
+
 const seo = page
 	? getSeoMeta(page, {
 			siteUrl: Astro.url.origin,
@@ -21,46 +75,197 @@ const seo = page
 
 <Base
 	title={seo?.title !== "Home" ? seo?.title : undefined}
-	pageTitle={pageTitle}
+	pageTitle={page?.data.title}
 	description={seo?.description}
 	image={seo?.ogImage}
 	canonical={seo?.canonical}
 	robots={seo?.robots}
 	content={page ? { collection: "pages", id: page.data.id, slug: page.id } : undefined}
+	bare
 >
-	{
-		page && pageContent ? (
-			<div {...page.edit.content}>
-				<MarketingBlocks value={pageContent} />
-			</div>
-		) : (
-			<div class="empty-state">
-				<h1>J.R. Friesen</h1>
-				<p>Edit the home page content in the admin to get started.</p>
-					{Astro.locals.user && (
-						<a href="/_emdash/admin" class="btn btn-primary">
-							Open Admin
-						</a>
-					)}
-			</div>
-		)
-	}
+	<div class="landing">
+		<header class="landing-name">
+			<h1>{name}</h1>
+		</header>
+
+		<aside class="landing-contact" aria-label="Contact">
+			<a href={phone.url}>{phone.label}</a>
+			<a href={email.url}>{email.label}</a>
+		</aside>
+
+		<div class="landing-stage">
+			{slides.length > 0 ? (
+				<div class="slideshow" data-slideshow data-interval="4500" aria-roledescription="carousel" aria-label="Photos">
+					{slides.map((img, i) => (
+						<div class:list={["slide", { "is-active": i === 0 }]} aria-hidden={i === 0 ? "false" : "true"}>
+							<Image image={img} class="slide-media" priority={i === 0} />
+						</div>
+					))}
+				</div>
+			) : (
+				<div class="slideshow slideshow--empty" />
+			)}
+		</div>
+
+		<nav class="landing-services" aria-label="Services">
+			{services.map((s) => (s.url ? <a href={s.url}>{s.label}</a> : <span>{s.label}</span>))}
+		</nav>
+
+		<footer class="landing-footer">
+			<a href="/privacy-policy">Privacy</a>
+			<span>&copy; {new Date().getFullYear()} by Jay Friesen</span>
+		</footer>
+	</div>
 </Base>
 
+<script>
+	// Crossfade every few seconds. Pauses when the tab is hidden and respects reduced motion.
+	for (const show of document.querySelectorAll<HTMLElement>("[data-slideshow]")) {
+		const slides = Array.from(show.querySelectorAll<HTMLElement>(".slide"));
+		if (slides.length < 2) continue;
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) continue;
+		const interval = Number(show.dataset.interval) || 4500;
+		let current = 0;
+		const advance = () => {
+			if (document.hidden) return;
+			slides[current].classList.remove("is-active");
+			slides[current].setAttribute("aria-hidden", "true");
+			current = (current + 1) % slides.length;
+			slides[current].classList.add("is-active");
+			slides[current].setAttribute("aria-hidden", "false");
+		};
+		setInterval(advance, interval);
+	}
+</script>
+
 <style>
-	.empty-state {
+	.landing {
+		min-height: 100vh;
+		min-height: 100dvh;
+		display: grid;
+		grid-template-columns: 1fr minmax(0, 880px) 1fr;
+		grid-template-rows: auto 1fr auto;
+		grid-template-areas:
+			". name ."
+			"contact stage services"
+			". footer .";
+		column-gap: clamp(24px, 4vw, 72px);
+		padding: 40px clamp(24px, 7vw, 144px) 32px;
+		background: #fff;
+		color: #2b2b2b;
+	}
+
+	.landing-name {
+		grid-area: name;
 		text-align: center;
-		padding: var(--spacing-5xl) var(--spacing-lg);
-		max-width: var(--max-width);
-		margin: 0 auto;
 	}
 
-	.empty-state h1 {
-		margin-bottom: var(--spacing-md);
+	.landing-name h1 {
+		font-size: 1.25rem;
+		font-weight: 400;
+		letter-spacing: 0.01em;
+		color: #2b2b2b;
 	}
 
-	.empty-state p {
-		color: var(--color-muted);
-		margin-bottom: var(--spacing-xl);
+	.landing-contact,
+	.landing-services {
+		align-self: center;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		font-size: 1rem;
+		line-height: 1.5;
+	}
+
+	.landing-contact {
+		grid-area: contact;
+		align-items: flex-start;
+	}
+
+	.landing-services {
+		grid-area: services;
+		align-items: flex-end;
+		text-align: right;
+	}
+
+	.landing a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.landing a:hover,
+	.landing a:focus-visible {
+		text-decoration: underline;
+		text-underline-offset: 3px;
+	}
+
+	.landing-stage {
+		grid-area: stage;
+		align-self: center;
+		padding-block: 48px;
+	}
+
+	.slideshow {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 4 / 3;
+		overflow: hidden;
+		background: #111;
+	}
+
+	.slide {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		transition: opacity 1.2s ease;
+	}
+
+	.slide.is-active {
+		opacity: 1;
+	}
+
+	.slide :global(.slide-media),
+	.slide :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		display: block;
+	}
+
+	.landing-footer {
+		grid-area: footer;
+		display: flex;
+		justify-content: flex-end;
+		gap: 24px;
+		font-size: 0.85rem;
+		color: #555;
+	}
+
+	@media (max-width: 760px) {
+		.landing {
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: auto auto auto auto;
+			grid-template-areas:
+				"name name"
+				"stage stage"
+				"contact services"
+				"footer footer";
+			row-gap: 28px;
+			padding: 28px 16px 24px;
+		}
+
+		.landing-stage {
+			padding-block: 0;
+		}
+
+		.landing-footer {
+			justify-content: center;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.slide {
+			transition: none;
+		}
 	}
 </style>

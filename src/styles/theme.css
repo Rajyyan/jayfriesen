@@ -1,39 +1,57 @@
 /*
-  theme.css -- J.R. Friesen site theme. Overrides the defaults in tokens.css.
-  Warm amber (VU-meter glow) over near-black in dark mode, warm off-white in light mode.
+  theme.css -- J.R. Friesen site theme, matched to the original Wix site:
+  white background, charcoal text, Quicksand, no gradients, light mode only.
+  Overrides the defaults in tokens.css.
 */
 
-:root {
-	--color-bg: light-dark(#faf8f5, #111010);
-	--color-surface: light-dark(#f1ede6, #1b1918);
-	--color-text: light-dark(#1a1714, #f3efe9);
-	--color-muted: light-dark(#6b6259, #a39a90);
-	--color-border: light-dark(#e2dbd1, #2e2a27);
+:root,
+:root.dark,
+:root.light {
+	color-scheme: light;
 
-	--color-brand: light-dark(#b45309, #f59e0b);
-	--color-brand-strong: light-dark(#92400e, #d97706);
-	--color-brand-soft: light-dark(#d97706, #fbbf24);
-	--color-accent: light-dark(#b91c1c, #ef4444);
-	--color-accent-soft: #fca5a5;
-	--color-on-brand: #fff;
+	--color-bg: #ffffff;
+	--color-surface: #f6f6f6;
+	--color-text: #2b2b2b;
+	--color-muted: #6b6b6b;
+	--color-border: #e6e6e6;
 
-	--gradient-headline: linear-gradient(135deg, var(--color-text), var(--color-brand));
+	--color-brand: #2b2b2b;
+	--color-brand-strong: #111111;
+	--color-brand-soft: #555555;
+	--color-accent: #2b2b2b;
+	--color-accent-soft: #bbbbbb;
+	--color-on-brand: #ffffff;
 
-	--font-weight-display: 700;
-	--radius: 6px;
-	--radius-lg: 10px;
+	/* Flat, monochrome: no gradients */
+	--gradient-brand: #2b2b2b;
+	--gradient-brand-strong: #2b2b2b;
+	--gradient-brand-soft: transparent;
+	--gradient-headline: linear-gradient(#2b2b2b, #2b2b2b);
+
+	--font-weight-heading: 500;
+	--font-weight-display: 500;
+	--radius-sm: 0;
+	--radius: 0;
+	--radius-lg: 0;
+	--shadow-sm: none;
+	--shadow: none;
+	--shadow-lg: none;
+	--shadow-xl: none;
 }
 
-@supports not (color: light-dark(#000, #fff)) {
-	:root {
-		--color-bg: #faf8f5;
-		--color-surface: #f1ede6;
-		--color-text: #1a1714;
-		--color-muted: #6b6259;
-		--color-border: #e2dbd1;
-		--color-brand: #b45309;
-		--color-brand-strong: #92400e;
-		--color-brand-soft: #d97706;
-		--color-accent: #b91c1c;
-	}
+/* Light only, like the original site: hide the light/dark switcher. */
+.theme-switcher {
+	display: none !important;
+}
+
+/* Quieter header: name on the left, plain text links. */
+.site-logo {
+	font-weight: 400 !important;
+	letter-spacing: 0.01em !important;
+}
+
+.nav-cta {
+	background: transparent !important;
+	color: var(--color-text) !important;
+	border: 1px solid var(--color-text) !important;
 }
