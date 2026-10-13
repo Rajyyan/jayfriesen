@@ -17,6 +17,14 @@
 			"database_id": "5cdfa910-9fd4-480c-87ac-b848839eb21d",
 		},
 	],
+	// Resizes R2 photos on the fly (EmDash image endpoint); the Astro Cloudflare
+	// adapter adds these at build too -- listed here so the intent is explicit.
+	"images": {
+		"binding": "IMAGES",
+	},
+	"cache": {
+		"enabled": true,
+	},
 	"r2_buckets": [
 		{
 			"binding": "MEDIA",
